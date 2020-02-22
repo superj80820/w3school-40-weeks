@@ -3,8 +3,8 @@
 ## 前置
 
 1. `npm install`
-2. Node server: 執行`node node.js/server.js`來啟動
-3. Sleep server: 執行`node node.js/sleepServer.js`來啟動，這是模擬耗時IO的server
+2. Node server: `node node.js/server.js`
+3. Sleep server: `node node.js/sleepServer.js`，這是模擬耗時IO的server
 
 ## IO bound測試
 
