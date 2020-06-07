@@ -15,7 +15,7 @@ export class AuthService {
       qs.stringify({
         grant_type: 'authorization_code',
         code,
-        redirect_uri: 'https://6b2585a6f000.ngrok.io/login/auth',
+        redirect_uri: `${this.configService.get<string>('SERVER_URI')}/login/auth`,
         client_id: this.configService.get<string>('LINE_CLIENT_ID'),
         client_secret: this.configService.get<string>('LINE_CLICLIENT_SECRET')
       }),

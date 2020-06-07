@@ -17,7 +17,7 @@ export class AuthController {
     const nonce:string = crypto.randomBytes(43).toString('hex');
     const query:string = qs.stringify({
       response_type: 'code',
-      client_id: '1654274121',
+      client_id: this.configService.get<string>('LINE_CLIENT_ID'),
       redirect_uri: `${this.configService.get<string>('SERVER_URI')}/login/auth`,
       state,
       scope: 'profile openid',
