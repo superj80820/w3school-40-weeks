@@ -67,7 +67,7 @@ func initRedis() *libredis.Client {
 func webhookHanlder(c *gin.Context) {
 	var postType PostType
 	readBody(c, &postType) // 讀取request的body，並把struct套上，這個PostType struct是專門用來解析request type的
-	switch postType.Type { // 如果是message type就以textHandler()處理，如果是image type就以imageHandler()處理
+	switch postType.Type { // 如果是message type就以textHandler function處理，如果是image type就以imageHandler function處理
 	case "message":
 		textHandler(c)
 	case "image":
