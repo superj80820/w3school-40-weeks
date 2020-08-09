@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  server-1.16.1:
+    image: itzg/minecraft-server
+    ports:
+      - 25565:25565
+    environment:
+      EULA: "TRUE"
+      VERSION: "1.16.1"
+      ONLINE_MODE: "FALSE"
+    restart: always
+  server-1.15.2:
+    image: itzg/minecraft-server
+    ports:
+      - 25566:25565
+    environment:
+      EULA: "TRUE"
+      VERSION: "1.15.2"
+      ONLINE_MODE: "FALSE"
+    restart: always
