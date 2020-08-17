@@ -1,19 +1,29 @@
+# Docker-Compose 使用的版本，每個版本提供的設定功能不同，可參考官網：https://docs.docker.com/compose/compose-file/
 version: "3.5"
 
+# 使用 docker-compose up 指令後，要啟動的 servers ，也可稱為 services ，這邊設定了 server-1.16.1 與 server-1.15.2 兩個不同版本的 Minecraft Server。
 services:
   server-1.16.1:
+    # 使用指定的 Docker Image 。
     image: itzg/minecraft-server
+    # 就是原本 -p 25565:25565 的指令，將 docker 內部的 25565 port 轉發至本機的 25565 port 。
     ports:
       - 25565:25565
+    # 設定環境變數，原本的 Minecraft Server 我們透過 eula.txt 與 server.properties 來設定 Server ，而此 Image 是透過啟動 Docker 後， Docker 內部的環境變數來設定 Server ，環境變數的相關文件在此：https://github.com/itzg/docker-minecraft-server#server-configuration
     environment:
       EULA: "TRUE"
       VERSION: "1.16.1"
+    # 如果 Server 當機導致 Docker 崩潰了，會自動重啟 Docker 。
     restart: always
   server-1.15.2:
+    # 使用指定的 Docker Image 。
     image: itzg/minecraft-server
+    # 就是原本 -p 25566:25565 的指令，將 docker 內部的 25565 port 轉發至本機的 25566 port 。
     ports:
       - 25566:25565
+    # 設定環境變數，原本的 Minecraft Server 我們透過 eula.txt 與 server.properties 來設定 Server ，而此 Image 是透過啟動 Docker 後， Docker 內部的環境變數來設定 Server ，環境變數的相關文件在此：https://github.com/itzg/docker-minecraft-server#server-configuration
     environment:
       EULA: "TRUE"
       VERSION: "1.15.2"
+    # 如果 Server 當機導致 Docker 崩潰了，會自動重啟 Docker 。
     restart: always
