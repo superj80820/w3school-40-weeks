@@ -46,17 +46,31 @@ func BytesToPrivateKey(priv []byte) *rsa.PrivateKey {
 func main() {
 	// 壞人的私鑰
 	badGuyPrivateKey := BytesToPrivateKey(LoadFile("./badGuyKey"))
+	// 小明的私鑰
+	goodGuyPrivateKey := BytesToPrivateKey(LoadFile("./goodGuyKey"))
 	// 小明的公鑰，公鑰可以透過私要來取得，所以這邊就不在載入公鑰檔案了
-	goodGuyPublicKey := BytesToPrivateKey(LoadFile("./goodGuyKey")).PublicKey
+	goodGuyPublicKey := goodGuyPrivateKey.PublicKey
 
-	// 壞人開始偽造小明的訊息
-	messageBytes := []byte("小明餐點: 大冰紅")
+	// 小明用自己的私鑰對訊息簽章
+	messageBytes := []byte("小明餐點: 大冰奶")
 	hash := sha512.New()
 	hash.Write(messageBytes)
 	hashed := hash.Sum(nil)
 
+	// 小明用自己的私鑰簽名
+	signature, err := rsa.SignPKCS1v15(rand.Reader, goodGuyPrivateKey, crypto.SHA512, hashed)
+	if err != nil {
+		panic(err)
+	}
+
+	// 小明的資料被壞人攔截，壞人開始偽造小明的訊息
+	messageBytes = []byte("小明餐點: 大冰紅")
+	hash = sha512.New()
+	hash.Write(messageBytes)
+	hashed = hash.Sum(nil)
+
 	// 壞人用自己的私鑰簽名，並非小明的
-	signature, err := rsa.SignPKCS1v15(rand.Reader, badGuyPrivateKey, crypto.SHA512, hashed)
+	signature, err = rsa.SignPKCS1v15(rand.Reader, badGuyPrivateKey, crypto.SHA512, hashed)
 	if err != nil {
 		panic(err)
 	}

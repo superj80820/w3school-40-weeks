@@ -10,10 +10,26 @@ import (
 func hmacSha256(data string, secret string) string {
 	h := hmac.New(sha256.New, []byte(secret))
 	h.Write([]byte(data))
-	// yorktodo為什麼要h.sum
 	return hex.EncodeToString(h.Sum(nil))
 }
 
 func main() {
-	fmt.Println(hmacSha256("test", "thisissecrety"))
+	sharedSecret := "小明與早餐店阿姨的共同鑰匙"
+	badGuySecret := "壞人的鑰匙"
+	meals := "小明餐點: 大冰紅"
+
+	// 小明利用與早餐店阿姨共同的鑰匙產生HMAC
+	requestHMAC := hmacSha256(meals, sharedSecret)
+
+	// 壞人攔截小明的封包，利用自己的鑰匙產生HMAC
+	requestHMAC = hmacSha256(meals, badGuySecret)
+
+	// 早餐店阿姨利用與小明共同的鑰匙產生HMAC
+	trueHMAC := hmacSha256(meals, sharedSecret)
+
+	// 早餐店阿姨比對此兩個HMAC，發現不同，故此訊息不是小明傳送的
+	if requestHMAC != trueHMAC {
+		fmt.Println("Two HMACs are not the same.")
+		return
+	}
 }

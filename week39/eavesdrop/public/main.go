@@ -89,6 +89,7 @@ func DecryptWithPrivateKey(ciphertext []byte, priv *rsa.PrivateKey) []byte {
 func main() {
 	// 早餐店阿姨產生公私鑰
 	privateKey := BytesToPrivateKey(LoadFile("./key"))
+	// 公鑰可以透過私要來取得，所以這邊就不在載入公鑰檔案了
 	publicKey := &privateKey.PublicKey
 
 	// 小明獲得早餐店阿姨的公鑰，利用此公鑰加密
